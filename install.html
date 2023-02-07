@@ -41,89 +41,153 @@
 				<div class="container-fluid px-3 px-md-0">
 					<div class="row">
 						<div class="col-md-12 mb-4">
-							<h1>How to install Judgo System?</h1>
-                            <h2>1- Install Application with Docker</h2>
-                            <h2>2-  Docker</h2>
+
+							<h1>Installation</h1>
+							<hr>
+							<div>
+								JUDGO works wih the following OS:
+								<ul>
+									<li>macOS X</li>
+									<li>Windows</li>
+									<li>Linux</li>
+								</ul>
+
+								Requirements:
+								<ul>
+									<li>Python >= 3.8</li>
+									<li>Postgress >= 14.5 </li>
+									<li>Docker </li>
+								</ul>
+								<h5><b>Note</b>: By using the Dockerized version, you do not need to install Python or PostgreSQL on your system, as these dependencies are included in the Docker container. Docker is optional, and you may choose to install the preference judgment software system directly on your system without using Docker, although this may require additional setup steps.
 
 
 
-<!-- ## 
+								</h5>
+								
+							</div>
 
-Step 0- Before install this project make sure your sysytem has `docker` and `docker-compose` installed.
+							<div class="col-md-12 mb-4">
+							
+								<h3>1. Initial Step</h3>
+									<p> Clone the Repository:
+										To get the source code for the preference judgment system, you need to clone the repository from GitHub. Open a terminal and run the following command:
+									</p>
 
-Step 1- Clone project and run the following command inorder to ingest corpus to dataset.
+									<code>
+									>>> git clone https://github.com/judgo-system/judgo.git
+									</code>
 
-```
-docker-compose up --build -d 
+							</div>
+							<div class="col-md-12 mb-4">
 
-# find the name of web container it should be something like judgo_web_xx
-docker ps
-# to enter web container
-docker exec -i -t judgo_web_xx /bin/bash
-cd src
-# ingest data to dataset with the following command
-python manage.py shell < fixtures/ingest_data.py 
+								<h3>2. Setup Configuration</h3>
+								<p> In the project directory, the `judgo.env` file is where you can change various parameters to configure the preference judgment software system to meet your specific needs. Some of the common parameters you can modify in this file include:</p>
+								
+								<blockquote>
+									<ul>
+									
+										<li>ENGINE: The database engine to use. This should be set to django.db.backends.postgresql to use PostgreSQL as the database.</li>
+										NAME: The name of the database.
 
-# Press CTRL+D to exit from container
-```
+										<li>USER: The username to use when connecting to the database.</li>
 
-Step 2- Open http://0.0.0.0:8000/ -->
+										<li>PASSWORD: The password to use when connecting to the database.</li>
+
+										<li>HOST: The hostname or IP address of the database server.</li>
+
+										<li>PORT: The port number to use when connecting to the database.</li>
+
+										<li>SECRET_KEY: A secret key used to secure the Django application. This should be set to a long, random string.</li>
+
+										<li>DEBUG: A flag that indicates whether the Django application should run in debug mode. This should be set to True for development and testing, and False for production.</li>
+
+										<li>DJANGO_SUPERUSER_PASSWORD: The password for the Django superuser.</li>
+
+										<li>DJANGO_SUPERUSER_EMAIL: The email address for the Django superuser.</li>
+
+										<li>DJANGO_SUPERUSER_USERNAME: The username for the Django superuser.</li>
+
+										<li>IS_JUDGMENT_TEST_EXIST: A flag indicating whether a judgment test should be performed.</li>
+
+										<li>JUDGMENT_TEST_THRESHOULD: The threshold for the judgment test start from the begining of judgment setion.</li>
+
+										<li>TOP_DOC_THRESHOULD: The threshold for the top documents that should be retreived.</li>
+
+										<li>PREF_ALGORITHM: The preference judgment algorithm version to use there are two versions "v.1" and "v.2".</li>
+										<ur>
+
+										</ur>
+									</ul>
+								</blockquote>
+
+							</div>
+
+							
+							<div class="col-md-12 mb-4">
+								<h3>3. Install Application</h3>
+
+								<div class="col-md-12 mb-4">
+
+									<h4>3.1. With Docker</h4>
+										<ul>
+											<li>
+												<p>	
+													<b> Build the Docker Image</b>: To build the Docker image for the preference judgment  system, run the following command in the project directory:
+												</p>
+												<code>
+													>> docker-compose up --build
+												</code>
+												
+											</li>
+										</ul>
+										
+								</div>
+
+								<div class="col-md-12 mb-4">
+
+									<h4>3.2. Without Docker</h4>
+									<ul>
+										<li>
+											<p>	
+												<b> Create and activate a new virtual environment</b>: Run the following command in the project directory you can also use `conda`:
+											</p>
+											<code>
+												virtualenv myenv && source myenv/bin/activate
+											</code>
+										</li>
+
+										<li>
+											<p><b>Install Packages</b>: Install the required packages from the requirements/local.txt file using pip.</p>
+											<code>
+												pip install -r requirements/local.txt
+											</code>
+										</li>
 
 
+										<li>
+											<p><b>Setup Django and Postgres</b>: In the project directory, make the `setup_judgo.sh` file executable and run the file using the following commands:</p>
+											<code>
+												chmod +x setup_judgo.sh
+												./setup_judgo.sh
+											</code>
 
-
-<!-- ## Install Application without Docker
-
-Step 0- After clone project, create an activate a new virtual environment and run:
-
-```
-pip install -r requirements/base.txt
-```
-
-Step 1- Go to `web` folder create a new foloder named 'logs' and create a file named 'logs.log'
-
-Step 2- Go to `web/web` create `.env` file and fill the following information:
-
-```
-SECRET_KEY='xxxxxx'
-ENGINE="django.db.backends.sqlite3"
-NAME="db.sqlite3"
-USER="user"
-PASSWORD="password"
-HOST="localhost"
-PORT=5432
-```
-You can change them if you want to use anyother databases
-
-Step 3- Run the following commands:
-
-```
-python manage.py collectstatic
-python manage.py makemigrations
-python manage.py migrate --run-syncdb
-python manage.py createsuperuser
-
-# if you want to ingest msmarco sample data to database
-python manage.py shell < fixtures/ingest_msmarco_data.py
-
-python manage.py runserver
-```
-
-Step 4- Open http://0.0.0.0:8000/ -->
-
-
-
-
-
-                            <!-- </p>
-						</div>
-					</div>
-				</div>
-			</section>
-		</div>
-	</div> -->
-
+											<p>Note that the `setup_judgo.sh` script performs all the necessary actions to set up and run the preference judgment software system for the first time. This may include installing dependencies, setting up the database, ingest sample data to the database, creating a Django superuser, and starting the Django development server. The exact actions performed by the script will depend on the specific implementation of the preference judgment system.
+												
+												If you have done this step previously and you just need to run the system you can use the `run_judgo.sh` script which will start the preference judgment system using the previous configuration and settings, without having to perform any setup or configuration steps again.
+											</p>
+										</li>
+									</ul>
+										
+								</div>
+							</div>	
+							<div class="col-md-12 mb-4">
+								<h3>3. Access the Application</h3>
+								<p>
+									Following previous steps, the JUDGO system should now be running and accessible from a web browser at <a href="http://localhost:8000">http://localhost:8000</a> 
+								</p>
+							</div>						
 	</section>
 	</body>
+
 </html>
 

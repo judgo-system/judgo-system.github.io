@@ -27,8 +27,8 @@
 			
 			<nav id="colorlib-main-menu" role="navigation">
 				<ul>
-					<li class="colorlib-active"><a href="#">Home</a></li>
-					<li><a href="install.html">Install</a></li>
+					<li><a href="index.html">Home</a></li>
+					<li class="colorlib-active"><a href="#">Install</a></li>
 					<li><a href="usage.html">Usage</a></li>
 					<!-- <li><a href="documentation.html">Documentaion</a></li> -->
 					<li><a href="https://github.com/judgo-system/judgo">GitHub</a></li>
@@ -41,9 +41,81 @@
 				<div class="container-fluid px-3 px-md-0">
 					<div class="row">
 						<div class="col-md-12 mb-4">
-							<h1>Judgo System</h1>
-							<p>Judgo System is a preference judgment system to rank document based on user preference.</p>
-							
+							<h1>How to install Judgo System?</h1>
+                            <h2>1- Install Application with Docker</h2>
+                            <h2>2- Install Application without Docker</h2>
+
+
+
+<!-- ## 
+
+Step 0- Before install this project make sure your sysytem has `docker` and `docker-compose` installed.
+
+Step 1- Clone project and run the following command inorder to ingest corpus to dataset.
+
+```
+docker-compose up --build -d 
+
+# find the name of web container it should be something like judgo_web_xx
+docker ps
+# to enter web container
+docker exec -i -t judgo_web_xx /bin/bash
+cd src
+# ingest data to dataset with the following command
+python manage.py shell < fixtures/ingest_data.py 
+
+# Press CTRL+D to exit from container
+```
+
+Step 2- Open http://0.0.0.0:8000/ -->
+
+
+
+
+## Install Application without Docker
+
+Step 0- After clone project, create an activate a new virtual environment and run:
+
+```
+pip install -r requirements/base.txt
+```
+
+Step 1- Go to `web` folder create a new foloder named 'logs' and create a file named 'logs.log'
+
+Step 2- Go to `web/web` create `.env` file and fill the following information:
+
+```
+SECRET_KEY='xxxxxx'
+ENGINE="django.db.backends.sqlite3"
+NAME="db.sqlite3"
+USER="user"
+PASSWORD="password"
+HOST="localhost"
+PORT=5432
+```
+You can change them if you want to use anyother databases
+
+Step 3- Run the following commands:
+
+```
+python manage.py collectstatic
+python manage.py makemigrations
+python manage.py migrate --run-syncdb
+python manage.py createsuperuser
+
+# if you want to ingest msmarco sample data to database
+python manage.py shell < fixtures/ingest_msmarco_data.py
+
+python manage.py runserver
+```
+
+Step 4- Open http://0.0.0.0:8000/
+
+
+
+
+
+                            </p>
 						</div>
 					</div>
 				</div>
